@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1A2B Game</title>
+   
+</head>
+<body>
+    <h1>113306018_HW6_1A2B</h1>
+
+    <p>Guess the 4-digit number (no repeating digits):</p>
+    <input type="text" id="input" maxlength="4" placeholder="Enter your guess">
+    <button onclick="checkAns()">guess</button>
+    <h2>record:</h2>
+    <p id = "record"></p>
+
+    <div class="results" id="results"></div>
+
+    <script type = "text/javascript">
+        let ansArr = [];
+        let i = 0;
+        while (i < 4) {
+            let num = Math.floor(Math.random() * 10);
+            let flag = true;
+            for (let j=0; j<ansArr.length; j++) {
+                if (num === ansArr[j]) {
+                    flag = false;
+                    break;
+                }
+            }
+
+            if (flag) {
+                ansArr.push(num);
+                i++;
+            }
+        }
+
+        let times = 0;
+        function checkAns() {
+            let input = document.getElementById("input").value;
+            let inputArr = input.split("");
+            if (inputArr.length !== 4 || new Set(inputArr).size !== inputArr.length || isNaN(input)) {
+                document.getElementById("input").value = "";
+                alert("格式錯了");                   
+                return;
+            }
+
+            times++;
+
+            let a=0, b=0;
+            for (let i=0; i<4; i++) {
+                if (parseInt(inputArr[i]) === ansArr[i]) {
+                    a++;
+                } else if (ansArr.includes(parseInt(inputArr[i]))) {
+                    b++;
+                }
+            }
+            if (a === 4) {
+                alert("答對了！");
+            }
+            document.getElementById("record").innerText += `第${times}次：${input} → ${a}A${b}B\n`;
+            document.getElementById("input").value = "";
+        }
+
+    </script>
+</body>
+</html>
